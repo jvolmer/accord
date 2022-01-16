@@ -1,5 +1,7 @@
 #include <iostream>
 
 int main() {
-  std::cout << "c4 e g > c2." << std::endl;
+    std::cout << "Accord" << std::endl;
+    std::cout << "------" << std::endl;
+    std::cout << "g- maj7 = g-/b-/d-/f" << std::endl;
 }
