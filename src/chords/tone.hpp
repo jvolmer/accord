@@ -5,15 +5,41 @@
 #include <cstdint>
 #include <variant>
 
+struct Halfsteps {
+    uint8_t count;
+
+    friend auto operator==(const Halfsteps &lhs, const Halfsteps &rhs) -> bool {
+	return lhs.count == rhs.count;
+    }
+};
+ 
+class Whitesteps {
+public:
+    uint8_t count;
+    static constexpr uint8_t count_max = 7;
+    Whitesteps(uint8_t steps) { count = steps % count_max; };
+    friend auto operator==(const Whitesteps &lhs, const Whitesteps &rhs) -> bool {
+	return lhs.count == rhs.count;
+    }
+    friend auto operator+(const Whitesteps &lhs, const Whitesteps &rhs) -> Whitesteps {
+	return Whitesteps{ (uint8_t)(lhs.count + rhs.count) };
+    }
+};
+ 
 class White {
 private:
+    Whitesteps whitesteps;
     char name;
-    uint8_t halftone;
+    Halfsteps halfsteps;
 public:
-    enum Type {c, d, e, f, g, a, b};
-    White(Type name);
-    friend bool operator== (const White& lhs, const White& rhs) {
-	return lhs.name == rhs.name && lhs.halftone == rhs.halftone;
+    enum Type: uint8_t { c = 0, d = 1, e=2, f=3, g=4, a=5, b=6 };
+    White(Type type);
+    White(Whitesteps whitesteps);
+    friend auto operator==(const White &lhs, const White &rhs) -> bool {
+	return lhs.whitesteps == rhs.whitesteps;
+    }
+    friend auto operator+(const White& lhs, const Whitesteps& whitesteps) -> White {
+	return White{ lhs.whitesteps + whitesteps };
     }
 };
 
@@ -27,8 +53,8 @@ private:
 public:
     Tone(White white, Accidental accidental): white { white }, accidental { accidental } {};
     Tone(White white): white { white }, accidental { Accidental::none } {};
-    auto terz(int halftone) -> Tone;
-    friend bool operator== (const Tone& lhs, const Tone& rhs) {
+    auto terz(Halfsteps halfsteps) -> Tone;
+    friend auto operator==(const Tone& lhs, const Tone& rhs) -> bool {
 	return lhs.white == rhs.white && lhs.accidental == rhs.accidental; };
 };
 
