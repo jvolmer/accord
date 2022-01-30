@@ -11,7 +11,7 @@ private:
     Accidental m_accidental;
 public:
     Tone(White white, Accidental accidental): m_white { white }, m_accidental { accidental } {};
-    Tone(White white): m_white { white }, m_accidental { Accidental::none } {};
+    static auto of(White white) -> Tone { return Tone{ white, Accidental::none() }; };
     friend auto operator==(const Tone& lhs, const Tone& rhs) -> bool;
     auto terz(Halfsteps halfsteps) -> Tone;
 };

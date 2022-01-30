@@ -1,43 +1,35 @@
 #include "halfsteps.hpp"
 #include "white.hpp"
 
-auto operator==(const Whitesteps &lhs, const Whitesteps &rhs) -> bool {
+auto operator==(const Whitecount &lhs, const Whitecount &rhs) -> bool {
     return lhs.m_count == rhs.m_count;
 }
 
-auto operator+(const Whitesteps &lhs, const Whitesteps &rhs) -> Whitesteps {
-    return Whitesteps{ (uint8_t)(lhs.m_count + rhs.m_count) };
+auto operator+(const Whitecount &lhs, int add) -> Whitecount {
+    return Whitecount{ lhs.m_count + add };
 }
 
-White::White(Whitesteps steps): m_whitesteps{ steps } {
-    switch (steps.count()) {
-    case Type::c :
-	m_name = 'c'; m_halfsteps = Halfsteps{0};
-	break;
-    case Type::d :
-	m_name = 'd'; m_halfsteps = Halfsteps{2};
-	break;
-    case Type::e :
-	m_name = 'e'; m_halfsteps = Halfsteps{4};
-	break;
-    case Type::f :
-	m_name = 'f'; m_halfsteps = Halfsteps{5};
-	break;
-    case Type::g :
-	m_name = 'g'; m_halfsteps = Halfsteps{7};
-	break;
-    case Type::a :
-	m_name = 'a'; m_halfsteps = Halfsteps{9};
-	break;
-    case Type::b :
-	m_name = 'b'; m_halfsteps = Halfsteps{11};
-	break;
+White::White(Whitecount whitecount, char name, Halfsteps halfsteps) :
+    m_whitecount { whitecount },
+    m_name { name },
+    m_halfsteps { halfsteps } {}
+
+auto White::of(Whitecount count) -> White {
+    switch (count.get()) {
+    case Whitecount::c : return White::c();
+    case Whitecount::d : return White::d();
+    case Whitecount::e : return White::e();
+    case Whitecount::f : return White::f();
+    case Whitecount::g : return White::g();
+    case Whitecount::a : return White::a();
+    case Whitecount::b : return White::b();
     } 
 }
 
 auto operator==(const White &lhs, const White &rhs) -> bool {
-    return lhs.m_whitesteps == rhs.m_whitesteps;
+    return lhs.m_whitecount == rhs.m_whitecount;
 }
-auto operator+(const White& lhs, const Whitesteps& whitesteps) -> White {
-    return White{ lhs.m_whitesteps + whitesteps };
+
+auto operator+(const White& lhs, int add) -> White {
+    return White::of( Whitecount{lhs.m_whitecount + add} );
 }

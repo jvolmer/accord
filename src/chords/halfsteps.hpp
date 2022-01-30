@@ -2,16 +2,26 @@
 #define HALFSTEPS_H 
 
 #include <cstdint>
+#include <optional>
+#include <string>
 
 struct Halfsteps {
-    uint8_t count;
-
+    int count;
     friend auto operator==(const Halfsteps &lhs, const Halfsteps &rhs) -> bool {
 	return lhs.count == rhs.count;
     }
 };
 
-// possibly a map: -2: HalftoneDifference -> 'bb' ???
-enum class Accidental {double_flat=-2, flat=-1, none=0, sharp=1, double_sharp=2};
+class Accidental {
+private:
+    std::string m_name;
+    Halfsteps m_steps;
+    Accidental(std::string name, Halfsteps steps);
+    enum Steps: int {of_double_flat=-2, of_flat=-1, of_none=0, of_sharp=1, of_double_sharp=2};
+public:
+    static auto of(Halfsteps halfsteps) -> std::optional<Accidental>;
+    static auto none() -> Accidental { return Accidental{ "", Halfsteps{Steps::of_none} }; };
+    friend auto operator==(const Accidental& lhs, const Accidental& rhs) -> bool;
+};
 
 #endif

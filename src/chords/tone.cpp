@@ -2,8 +2,8 @@
 
 auto Tone::terz(Halfsteps halfsteps) -> Tone {
     return Tone{
-	m_white + Whitesteps{2},
-	Accidental::none
+	m_white + 2,
+	Accidental::none()
     };
 }
 

@@ -4,6 +4,7 @@ set(TESTS ${CMAKE_PROJECT_NAME}_tests)
 
 add_library(${LIB} EXCLUDE_FROM_ALL STATIC "")
 # add_executable(${MAIN} main.cpp)
+target_compile_options(${LIB} PUBLIC -fstrict-enums)
 
 add_executable(${TESTS} EXCLUDE_FROM_ALL main_test.cpp)
 find_package(GTest REQUIRED)

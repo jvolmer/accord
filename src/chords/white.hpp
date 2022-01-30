@@ -4,28 +4,34 @@
 #include "halfsteps.hpp"
 #include <cstdint>
 
-class Whitesteps {
-private:
-    uint8_t m_count;
-    static constexpr uint8_t count_max = 7;
+class Whitecount {
 public:
-    Whitesteps(uint8_t steps) { m_count = steps % count_max; };
-    auto count() -> uint8_t { return m_count; };
-    friend auto operator==(const Whitesteps &lhs, const Whitesteps &rhs) -> bool;
-    friend auto operator+(const Whitesteps &lhs, const Whitesteps &rhs) -> Whitesteps;
+    enum Count: unsigned int { c=0, d=1, e=2, f=3, g=4, a=5, b=6 };
+    Whitecount(unsigned int steps) { m_count = static_cast<Count>(steps % 7); };
+    auto get() -> Count { return m_count; };
+    friend auto operator==(const Whitecount &lhs, const Whitecount &rhs) -> bool;
+    friend auto operator+(const Whitecount &lhs, int add) -> Whitecount;
+private:
+    Count m_count;
 };
 
 class White {
 private:
-    Whitesteps m_whitesteps;
+    Whitecount m_whitecount;
     char m_name;
     Halfsteps m_halfsteps;
+    White(Whitecount whitesteps, char name, Halfsteps halfsteps);
 public:
-    enum Type: uint8_t { c=0, d=1, e=2, f=3, g=4, a=5, b=6 };
-    White(Type type) : White{ Whitesteps{type} } {};
-    White(Whitesteps whitesteps);
+    static auto of(Whitecount whitesteps) -> White;
+    static auto c() -> White { return White{Whitecount::c, 'c', Halfsteps{0}}; };
+    static auto d() -> White { return White{Whitecount::d, 'd', Halfsteps{2}}; }
+    static auto e() -> White { return White{Whitecount::e, 'e', Halfsteps{4}}; }
+    static auto f() -> White { return White{Whitecount::f, 'f', Halfsteps{5}}; }
+    static auto g() -> White { return White{Whitecount::g, 'g', Halfsteps{7}}; }
+    static auto a() -> White { return White{Whitecount::a, 'a', Halfsteps{9}}; }
+    static auto b() -> White { return White{Whitecount::b, 'b', Halfsteps{11}}; }
     friend auto operator==(const White &lhs, const White &rhs) -> bool;
-    friend auto operator+(const White& lhs, const Whitesteps& whitesteps) -> White;
+    friend auto operator+(const White& lhs, int add) -> White;
 };
 
 #endif
