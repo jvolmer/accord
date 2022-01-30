@@ -84,3 +84,9 @@ TEST(Terz_from_different_Tones, Terz_from_E_flat_by_5_halftones_is_G_sharp) {
 	(Tone{White::g(), Accidental::sharp()}));
 };
 
+TEST(Terz_from_different_Tones, Terz_from_B_by_4_halftones_is_D_sharp) {
+    EXPECT_EQ(
+	(Tone::of(White::b()).terz(Halfsteps{4})),
+	(Tone{White::d(), Accidental::sharp()}));
+};
+

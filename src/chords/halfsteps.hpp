@@ -7,6 +7,8 @@
 
 struct Halfsteps {
     int count;
+    constexpr static int max_in_one_octave = 12;
+    auto in_octave() -> Halfsteps { return Halfsteps{count % max_in_one_octave}; };
     friend auto operator==(const Halfsteps& lhs, const Halfsteps& rhs) -> bool;
     friend auto operator+(const Halfsteps& lhs, const Halfsteps& rhs) -> Halfsteps;
     friend auto operator-(const Halfsteps& lhs, const Halfsteps& rhs) -> Halfsteps;

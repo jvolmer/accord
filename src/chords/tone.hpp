@@ -11,7 +11,7 @@ private:
     White m_white;
     Accidental m_accidental;
     auto halfsteps() -> Halfsteps { return m_white.halfsteps() + m_accidental.halfsteps(); }; 
-    auto halfsteps_up(White white) { return white.halfsteps() - halfsteps(); };
+    auto halfsteps_up(White white) -> Halfsteps { return white.halfsteps() - halfsteps(); };
 public:
     Tone(White white, Accidental accidental): m_white { white }, m_accidental { accidental } {};
     static auto of(White white) -> Tone { return Tone{ white, Accidental::none() }; };

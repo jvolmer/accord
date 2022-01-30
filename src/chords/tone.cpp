@@ -3,7 +3,8 @@
 
 auto Tone::terz(Halfsteps terz_halfsteps) -> std::optional<Tone> {
     auto new_white = m_white + 2;
-    auto needed_accidental = Accidental::of(terz_halfsteps - this->halfsteps_up(new_white));
+    auto missing_halfsteps = (terz_halfsteps - this->halfsteps_up(new_white)).in_octave();
+    auto needed_accidental = Accidental::of(missing_halfsteps);
 
     if (!needed_accidental) {
 	return {};
