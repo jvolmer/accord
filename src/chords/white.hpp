@@ -30,6 +30,7 @@ public:
     static auto g() -> White { return White{Whitecount::g, 'g', Halfsteps{7}}; }
     static auto a() -> White { return White{Whitecount::a, 'a', Halfsteps{9}}; }
     static auto b() -> White { return White{Whitecount::b, 'b', Halfsteps{11}}; }
+    auto halfsteps() -> Halfsteps { return m_halfsteps; };
     friend auto operator==(const White &lhs, const White &rhs) -> bool;
     friend auto operator+(const White& lhs, int add) -> White;
 };
